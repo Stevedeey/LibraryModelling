@@ -2,7 +2,7 @@
   {
     "id": 1,
     "author": "Chinua Achebe",
-    "numOfCopies": 5,
+    "numOfCopies": 1,
     "country": "Nigeria",
     "category": "Journals",
     "imageLink": "images/things-fall-apart.jpg",
@@ -64,7 +64,8 @@
     "title": "The Book Of Job",
     "year": 600
   },
-  {  "id": 6,
+  {
+    "id": 6,
     "numOfCopies": 31,
     "author": "Adam Smith",
     "country": "India/Iran/Iraq/Egypt/Tajikistan",
@@ -76,7 +77,8 @@
     "title": "One Thousand and One Nights",
     "year": 1200
   },
-  {   "id": 7,
+  {
+    "id": 7,
     "numOfCopies": 20,
     "author": "Jerry Ken",
     "country": "Iceland",
@@ -90,7 +92,6 @@
   },
   {
     "id": 8,
-
     "numOfCopies": 3,
     "author": "Jane Austen",
     "country": "United Kingdom",
@@ -116,7 +117,6 @@
   },
   {
     "id": 10,
-
     "numOfCopies": 3,
     "author": "Samuel Beckett",
     "country": "Republic of Ireland",
@@ -414,7 +414,8 @@
     "title": "The Sound and the Fury",
     "year": 1929
   },
-  {  "id": 33,
+  {
+    "id": 33,
     "numOfCopies": 3,
     "author": "Gustave Flaubert",
     "country": "France",
@@ -621,7 +622,6 @@
     "year": 1924
   },
   {
-
     "id": 49,
     "numOfCopies": 3,
     "author": "Franz Kafka",
@@ -881,7 +881,8 @@
     "title": "The Man Without Qualities",
     "year": 1931
   },
-  { "id": 69,
+  {
+    "id": 69,
     "numOfCopies": 2,
     "author": "Vladimir Nabokov",
     "country": "Russia/United States",
@@ -1297,15 +1298,15 @@
   {
     "id": 101,
     "numOfCopies": 5,
-  "author": "Marijn Haverbeke",
-  "country": "France/Belgium",
+    "author": "Marijn Haverbeke",
+    "country": "France/Belgium",
     "category": "Programming",
-  "imageLink": "images/memoirs-of-hadrian.jpg",
-  "language": "French",
-  "link": "http://eloquentjavascript.net/\n",
-  "pages": 408,
-  "title": "Eloquent JavaScript, Second Edition",
-  "year": 1951
+    "imageLink": "images/memoirs-of-hadrian.jpg",
+    "language": "French",
+    "link": "http://eloquentjavascript.net/\n",
+    "pages": 408,
+    "title": "Eloquent JavaScript, Second Edition",
+    "year": 1951
   },
   {
     "id": 102,
@@ -1329,7 +1330,7 @@
     "imageLink": "images/memoirs-of-hadrian.jpg",
     "language": "French",
     "link": "http://speakingjs.com/\n",
-    "pages":460,
+    "pages": 460,
     "title": "Speaking JavaScript",
     "year": 1945
   },
@@ -1342,7 +1343,7 @@
     "imageLink": "images/memoirs-of-hadrian.jpg",
     "language": "French",
     "link": "http://chimera.labs.oreilly.com/books/1234000000262/index.html/\n",
-    "pages":254,
+    "pages": 254,
     "title": "Programming JavaScript Applications",
     "year": 1945
   },

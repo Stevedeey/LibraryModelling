@@ -15,15 +15,16 @@ import java.nio.file.Paths;
 import java.util.List;
 
 public class JSONmapper {
-    public  static List<Book> myListOfBooks  = getBooks();
+    public static List<Book> myListOfBooks = getBooks();
 
-    public  static List<Book> getBooks() {
-        List<Book> booksList =null;
+    public static List<Book> getBooks() {
+        List<Book> booksList = null;
         try {
             ObjectMapper mapper = new ObjectMapper();
             Path path = Paths.get("src/main/resources/file.json");
             BufferedReader reader = Files.newBufferedReader(path);
-            TypeReference<List<Book>> listReference = new TypeReference<List<Book>>() {};
+            TypeReference<List<Book>> listReference = new TypeReference<List<Book>>() {
+            };
             booksList = mapper.readValue(reader, listReference);
 
             reader.close();
@@ -40,7 +41,6 @@ public class JSONmapper {
         return booksList;
 
     }
-
 
 
 }

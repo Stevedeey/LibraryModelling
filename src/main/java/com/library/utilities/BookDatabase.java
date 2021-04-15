@@ -10,39 +10,39 @@ import java.util.*;
 public class BookDatabase {
 
 
-   private static List<Book> bookList = JSONmapper.myListOfBooks;
+    private static List<Book> bookList = JSONmapper.myListOfBooks;
 
     public static List<Book> getBookList() {
         return bookList;
     }
 
-    public  static  int bookId = bookList.size();
+    public static int bookId = bookList.size();
     private static RecordDisplayClass<Book, Object, Object> display = new RecordDisplayClass<>();
 
-    public static void updateBooks(Book book){
+    public static void updateBooks(Book book) {
         List<Book> allBooks = bookList;
         allBooks.add(book);
-       bookList = allBooks;
+        bookList = allBooks;
     }
 
-    public static List<Book> sortBookBy(Person person, String params){
-        if(person.getRole().equalsIgnoreCase("librarian")){
+    public static List<Book> sortBookBy(Person person, String params) {
+        if (person.getRole().equalsIgnoreCase("librarian")) {
             enums.Sorting sort = validateInputsToSort(params);
-            if(sort == null) return null;
+            if (sort == null) return null;
 
             List sortedBook = bookList;
             Comparator<Book> nameSorter = null;
 
-            switch (sort){
+            switch (sort) {
                 case PAGE:
                     nameSorter = (a, b) -> {
-                        if(a.getPages() > b.getPages()) return 1;
+                        if (a.getPages() > b.getPages()) return 1;
                         else return -1;
                     };
                     break;
                 case YEAR:
                     nameSorter = (a, b) -> {
-                        if(a.getYear() > b.getYear()) return 1;
+                        if (a.getYear() > b.getYear()) return 1;
                         else return -1;
                     };
                     break;
@@ -60,33 +60,33 @@ public class BookDatabase {
             Collections.sort(sortedBook, nameSorter);
             display.displayBookInformation(sortedBook);
             return sortedBook;
-        }else{
+        } else {
             System.out.println("You don't have access to this resource");
             return null;
         }
     }
 
-    public static List<Book> searchBookByCategory(String category){
+    public static List<Book> searchBookByCategory(String category) {
         BookCategories categories;
         List searchItemLists = new ArrayList();
 
         try {
             categories = BookCategories.valueOf(category.toUpperCase());
-        }catch (IllegalArgumentException error){
+        } catch (IllegalArgumentException error) {
             System.out.println("Enter valid Category:\n e.g FICTION, HISTORY, JOURNALS\n" +
                     "\t\tLITERATURE AND PROGRAMMING");
             return null;
         }
 
-        switch(categories){
+        switch (categories) {
             case FICTION:
             case HISTORY:
             case JOURNALS:
             case LITERATURE:
             case PROGRAMMING:
 
-                for (Book book: bookList) {
-                    if(book.getCategory().equalsIgnoreCase(category)){
+                for (Book book : bookList) {
+                    if (book.getCategory().equalsIgnoreCase(category)) {
                         searchItemLists.add(book);
                     }
                 }
@@ -99,11 +99,11 @@ public class BookDatabase {
 
     }
 
-    public static List<Book> searchBookByTitle(String title){
+    public static List<Book> searchBookByTitle(String title) {
         List searchItemLists = new ArrayList();
 
-        for (Book book: bookList) {
-            if(book.getTitle().equalsIgnoreCase(title)){
+        for (Book book : bookList) {
+            if (book.getTitle().equalsIgnoreCase(title)) {
                 searchItemLists.add(book);
             }
         }
@@ -113,11 +113,11 @@ public class BookDatabase {
         return searchItemLists;
     }
 
-    public static List<Book> searchBookByCountryName(String country){
+    public static List<Book> searchBookByCountryName(String country) {
         List searchItemLists = new ArrayList();
 
-        for (Book book: bookList) {
-            if(book.getCountry().equalsIgnoreCase(country)){
+        for (Book book : bookList) {
+            if (book.getCountry().equalsIgnoreCase(country)) {
                 searchItemLists.add(book);
             }
         }
@@ -127,11 +127,11 @@ public class BookDatabase {
         return searchItemLists;
     }
 
-    public static List<Book> searchBookByLanguage(String language){
+    public static List<Book> searchBookByLanguage(String language) {
         List searchItemLists = new ArrayList();
 
-        for (Book book: bookList) {
-            if(book.getLanguage().equalsIgnoreCase(language)){
+        for (Book book : bookList) {
+            if (book.getLanguage().equalsIgnoreCase(language)) {
                 searchItemLists.add(book);
             }
         }
@@ -147,7 +147,7 @@ public class BookDatabase {
         }
     };
 
-    public static List<Book> getBook(String title)  {
+    public static List<Book> getBook(String title) {
         List borrowBook = new ArrayList();
 
         Book book = new Book(title);
@@ -165,11 +165,12 @@ public class BookDatabase {
 
     }
 
-    private static Sorting validateInputsToSort(String data){
+
+    private static Sorting validateInputsToSort(String data) {
         Sorting sort;
         try {
             sort = Sorting.valueOf(data.toUpperCase());
-        }catch (IllegalArgumentException error){
+        } catch (IllegalArgumentException error) {
             System.out.println("Enter valid Search:\n e.g AUTHOR, PAGE, CATEGORY, COUNTRY ,\n" +
                     "YEAR AND STUDENT");
             return null;
@@ -182,7 +183,7 @@ public class BookDatabase {
     public String toString() {
         String bookStore = "BookStore\n";
 
-        for (Book book: bookList) {
+        for (Book book : bookList) {
             bookStore += book.toString();
         }
 

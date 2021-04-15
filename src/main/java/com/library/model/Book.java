@@ -17,8 +17,8 @@ public class Book implements Comparable<Book>{
 
     public Book() {
         this.id=0;
-        this.author ="";
         this.numOfCopies = 0;
+        this.author ="";
         this.country = "";
         this.category = "";
         this.imageLink = "";

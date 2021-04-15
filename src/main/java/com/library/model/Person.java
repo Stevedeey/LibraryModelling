@@ -52,13 +52,6 @@ public class Person implements Comparable<Person>{
 
     }
 
-    @Override
-    public int compareTo(Person person) {
-        if(this.level < person.level || this.level == person.level)
-            return 1;
-        else return -1;
-    }
-
     public String setLevel(String level){
         String message;
         if(!this.levelValidity(level)){
@@ -118,6 +111,10 @@ public class Person implements Comparable<Person>{
         return level;
     }
 
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
     public String getName(){
         return name;
     }
@@ -132,6 +129,14 @@ public class Person implements Comparable<Person>{
 
     public int getId() {
         return id;
+    }
+
+
+    @Override
+    public int compareTo(Person person) {
+        if(this.level < person.level || this.level == person.level)
+            return 1;
+        else return -1;
     }
 
     @Override
