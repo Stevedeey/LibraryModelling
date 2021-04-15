@@ -25,46 +25,12 @@ public class BookDatabase {
         bookList = allBooks;
     }
 
-    public static List<Book> sortBookBy(Person person, String params) {
-        if (person.getRole().equalsIgnoreCase("librarian")) {
-            enums.Sorting sort = validateInputsToSort(params);
-            if (sort == null) return null;
 
-            List sortedBook = bookList;
-            Comparator<Book> nameSorter = null;
-
-            switch (sort) {
-                case PAGE:
-                    nameSorter = (a, b) -> {
-                        if (a.getPages() > b.getPages()) return 1;
-                        else return -1;
-                    };
-                    break;
-                case YEAR:
-                    nameSorter = (a, b) -> {
-                        if (a.getYear() > b.getYear()) return 1;
-                        else return -1;
-                    };
-                    break;
-                case AUTHOR:
-                    nameSorter = (a, b) -> a.getAuthor().compareToIgnoreCase(b.getAuthor());
-                    break;
-                case COUNTRY:
-                    nameSorter = (a, b) -> a.getCountry().compareToIgnoreCase(b.getCountry());
-                    break;
-                case CATEGORY:
-                    nameSorter = (a, b) -> a.getCategory().compareToIgnoreCase(b.getCategory());
-                    break;
-            }
-
-            Collections.sort(sortedBook, nameSorter);
-            display.displayBookInformation(sortedBook);
-            return sortedBook;
-        } else {
-            System.out.println("You don't have access to this resource");
-            return null;
-        }
-    }
+    /**
+     * This method accept a book title as a parameter and return the book
+     * @param category
+     * @return
+     */
 
     public static List<Book> searchBookByCategory(String category) {
         BookCategories categories;
@@ -99,6 +65,11 @@ public class BookDatabase {
 
     }
 
+    /**
+     * This method accept a book title as a parameter and return the book
+     * @param title
+     * @return
+     */
     public static List<Book> searchBookByTitle(String title) {
         List searchItemLists = new ArrayList();
 
@@ -113,6 +84,11 @@ public class BookDatabase {
         return searchItemLists;
     }
 
+    /**
+     * This method accept the book's country  as a parameter the and return the  list of the book(s)
+     * @param country
+     * @return
+     */
     public static List<Book> searchBookByCountryName(String country) {
         List searchItemLists = new ArrayList();
 
@@ -177,6 +153,47 @@ public class BookDatabase {
         }
 
         return sort;
+    }
+
+    public static List<Book> sortBookBy(Person person, String params) {
+        if (person.getRole().equalsIgnoreCase("librarian")) {
+            enums.Sorting sort = validateInputsToSort(params);
+            if (sort == null) return null;
+
+            List sortedBook = bookList;
+            Comparator<Book> nameSorter = null;
+
+            switch (sort) {
+                case PAGE:
+                    nameSorter = (a, b) -> {
+                        if (a.getPages() > b.getPages()) return 1;
+                        else return -1;
+                    };
+                    break;
+                case YEAR:
+                    nameSorter = (a, b) -> {
+                        if (a.getYear() > b.getYear()) return 1;
+                        else return -1;
+                    };
+                    break;
+                case AUTHOR:
+                    nameSorter = (a, b) -> a.getAuthor().compareToIgnoreCase(b.getAuthor());
+                    break;
+                case COUNTRY:
+                    nameSorter = (a, b) -> a.getCountry().compareToIgnoreCase(b.getCountry());
+                    break;
+                case CATEGORY:
+                    nameSorter = (a, b) -> a.getCategory().compareToIgnoreCase(b.getCategory());
+                    break;
+            }
+
+            Collections.sort(sortedBook, nameSorter);
+            display.displayBookInformation(sortedBook);
+            return sortedBook;
+        } else {
+            System.out.println("You don't have access to this resource");
+            return null;
+        }
     }
 
     @Override

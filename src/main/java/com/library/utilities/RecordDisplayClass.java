@@ -12,7 +12,7 @@ public class RecordDisplayClass<M, T, E> {
         if (obj instanceof Person && obj2 instanceof List) {
             String display = "";
             System.out.println("\n==============================================");
-
+            System.out.println("\nList of issued book(s)");
             if (((Person) obj).getRole().equalsIgnoreCase("Teacher"))
                 display += "Staff ID: " + ((Person) obj).getId() + "\n";
             else display += "Student ID: " + ((Person) obj).getId() + "\n";

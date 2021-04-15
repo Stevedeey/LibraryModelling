@@ -54,6 +54,12 @@ public class LibrarianImplementation {
         return newBook;
     }
 
+    /**
+     * This method compels the user to enter correct values where integers are needed.
+     * @param prompt shows warning message
+     * @param sc1 collects values from the user
+     * @return
+     */
     private static int handlingNumberFormatException(String prompt, Scanner sc1) {
         int intInput = 0;
         while (true) {
@@ -69,6 +75,11 @@ public class LibrarianImplementation {
         return intInput;
     }
 
+    /**
+     * This method displays the info of the person(s) the book is issued to
+     * @param person
+     * @param book
+     */
     public static void setBookIssuedRecord(Person person, List<Book> book) {
         String records = "\n";
         if (person.getRole().equalsIgnoreCase("Teacher"))
@@ -84,6 +95,11 @@ public class LibrarianImplementation {
         Records.updateDateRecord(person.getId(), records);
     }
 
+    /**
+     * This method shows the record of all issued books
+     * @param librarian
+     * @return
+     */
     public static Map<Integer, String> getBookIssuedRecord(Person librarian) {
         if (librarian.getRole().equalsIgnoreCase("Librarian")) {
             display.displayRecordInformation(librarian, Records.getRecords());
@@ -103,6 +119,11 @@ public class LibrarianImplementation {
         return message;
     }
 
+    /**
+     * This handles returning book action
+     * @param person
+     * @return
+     */
     private static String deleteRecord(Person person) {
         Map<Integer, String> records;
         String message = "";
@@ -123,60 +144,13 @@ public class LibrarianImplementation {
         return message;
     }
 
-//    public static <T> String issueBook(Person librarian, T object) {
-//        String message = "";
-//        if (librarian.getRole().equalsIgnoreCase("librarian")) {
-//            if (object instanceof Person) {
-//                Person person = (Person) object;
-//                if (person.getRequest() != null) {
-//                    String request = person.getRequest().trim();
-//                    List<Book> bookIssued = BookDatabase.getBook(request);
-//                    if (bookIssued.size() > 0) {
-//                        message = "successful";
-//                        // display book to user
-//                        display = new RecordDisplayClass<>();
-//                        display.displayRecordInformation(person, bookIssued);
-//                        setBookIssuedRecord(person, bookIssued);
-//                    }
-//                } else {
-//                    message = "failed";
-//                    System.out.println("Make a request for a book first");
-//                }
-//            } else {
-//                PriorityQueue que = (PriorityQueue) object;
-//                Person person = (Person) que.peek();
-//                if (person.getRequest() != null) {
-//                    String request = person.getRequest().trim();
-//                    List<Book> bookIssued = BookDatabase.getBook(request);
-//                    setBookIssuedRecord(person, bookIssued);
-//                    display = new RecordDisplayClass<>();
-//                    //display for the person
-//                    display.displayRecordInformation(person, bookIssued);
-//                    setBookIssuedRecord(person, bookIssued);
-//                    //display others with no book
-//                    que.remove(que.peek());
-//                    Iterator<Person> iterator = que.iterator();
-//
-//                    String result = "Book not issued to \n";
-//                    while (iterator.hasNext()) {
-//                        result += "\t\t" + ((Person) que.poll()).getName() + "\n";
-//                    }
-//                    System.out.println(result);
-//                    message = "successful";
-//                } else {
-//                    message = "failed";
-//                    System.out.println("Make a request for a book first");
-//                }
-//
-//                que.clear();
-//            }
-//        } else {
-//            System.out.println("Can't use this method");
-//        }
-//
-//        return message;
-//    }
-
+    /**
+     * This method handles book issuance activity
+     * @param librarian
+     * @param object
+     * @param <T>
+     * @return
+     */
     public static <T> String issueBook(Person librarian, T object){
         String message = "";
         if(librarian.getRole().equalsIgnoreCase("librarian")){
@@ -203,6 +177,7 @@ public class LibrarianImplementation {
                 if(copiesOfBook == 1){
                     setBookIssuedRecord(person, bookIssued);
                     //display for the person
+                    System.out.println("Book(s) Issued to....");
                     display.displayRecordInformation(person, bookIssued);
                     setBookIssuedRecord(person, bookIssued);
 
@@ -230,9 +205,7 @@ public class LibrarianImplementation {
                         ((Person) que.poll()).getName();
                         if(copiesOfBook == 0) break;
                     }
-//
-//                    if(que.size()>0)
-//                        System.out.println(result+"\t\t"+((Person) que.peek()).getName());
+
                 }
 
                 que.clear();
@@ -245,12 +218,21 @@ public class LibrarianImplementation {
         return message;
     }
 
-
+    /**
+     * This method handles request making
+     * @param librarian
+     * @param person
+     * @param bookTitle
+     */
     public static void makeBookRequest(Person librarian, Person person, String bookTitle) {
         person.setRequest(bookTitle);
         System.out.println(person.getName() + ", You've successfully made a request for a book");
     }
 
+    /**
+     * Getting current date
+     * @return
+     */
     private static String generateCurrentDate() {
         String date = "";
 
@@ -261,7 +243,10 @@ public class LibrarianImplementation {
 
         return currentDate;
     }
-
+    /**
+     * Getting current time
+     * @return
+     */
     private static String getCurrentTime() {
         Calendar calendar = Calendar.getInstance();
         int hours = calendar.get(Calendar.HOUR_OF_DAY);
@@ -271,6 +256,10 @@ public class LibrarianImplementation {
         return " " + hours + ":" + minutes + ":" + seconds;
     }
 
+    /**
+     * Getting return date
+     * @return
+     */
     private static String getDateToReturnBook() {
         String currentDate = generateCurrentDate();
         String[] str = currentDate.split(" ");

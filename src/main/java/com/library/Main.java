@@ -16,9 +16,20 @@ public class Main {
             showMenu = Menu.main_menu();
 
         }
-        Menu.performSearching();
 
+        boolean showSearchMenu = true;
+        while(showSearchMenu)
+        {
+            showSearchMenu = Menu.performSearching();
 
+        }
+
+        boolean showSortMenu = true;
+
+        while (showSortMenu)
+        {
+            showSortMenu = Menu.handleSort();
+        }
 
 
     }

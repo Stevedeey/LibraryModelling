@@ -46,21 +46,21 @@ public class Menu {
         System.out.println("==============================================================================================");
         System.out.println("1) TO ADD A NEW BOOK\n");
         System.out.println("2) TO CHECK THE LIBRARY'S BOOK\n");
-        System.out.println("3) TO SET THREE TEACHERS TO MAKE REQUEST FOR\n");
 
-        System.out.println("4) To MAKE THREE TEACHERS PLACE A REQUEST FOR A BOOK" +
-                              "AND ISSUE THE BOOK TO A TEACHER FIRST COME, FIRST SERVED rule \n ");
 
-        System.out.println("5)TO ADD ONE MORE TEACHER (SAY TEACHER 4) AND ADD ANOTHER STUDENT TOO\n" +
+        System.out.println("3) To MAKE THREE TEACHERS PLACE A REQUEST FOR A BOOK" +
+                              " AND ISSUE THE BOOK TO A TEACHER FIRST COME, FIRST SERVED rule \n ");
+
+        System.out.println("4)TO ADD ONE MORE TEACHER (SAY TEACHER 4) AND ADD ANOTHER STUDENT TOO\n" +
                              " \t AND MAKE THE TEACHER 4 AND STUDENT 1 PLACE A REQUEST FOR A BOOK\n" +
                                 "\t ISSUE THE BOOK TO THE STUDENT BASED ON PRIORITY\n");
 
-        System.out.println("6) TO ADD A(JUNIOR) STUDENT SAY STUDENT 2 AND MAKE A REQUEST\n" +
+        System.out.println("5) TO ADD A(JUNIOR) STUDENT SAY STUDENT 2 AND MAKE A REQUEST\n" +
                              "\t TO ISSUE THE BOOK TO THE SENIOR STUDENT BASED ON PRIORITY\n");
 
-        System.out.println("7) TO PRINT ALL THE RECORD OF THE ISSUED BOOK\n");
-        System.out.println("8) TO RETURN BOOKS\n");
-        System.out.println("9) TO QUIT\n");
+        System.out.println("6) TO PRINT ALL THE RECORD OF THE ISSUED BOOK\n");
+        System.out.println("7) TO RETURN BOOKS\n");
+        System.out.println("8) TO QUIT\n");
 
         System.out.println();
         switch (scanner.next()) {
@@ -70,15 +70,8 @@ public class Menu {
                 display.displayBookInformation(listOfAllBooks);
                 return true;
 
+
             case "3":
-                display.displayPersons(listOfPersons);
-                System.out.println("\nBook requested for by " + teacher1.getName() + "is: " + teacher1.getRequest());
-                System.out.println("\nBook requested for by " + teacher2.getName() + "is: " + teacher2.getRequest());
-                System.out.println("\nBook requested for by " + teacher3.getName() + "is: " + teacher3.getRequest());
-
-                return true;
-
-            case "4":
                 //Processing three teachers
                 System.out.println(".....PROCESSING BOOK ISSUANCE FOR THREE TEACHERS.............................................");
                 LibrarianImplementation.makeBookRequest(librarian, teacher1, "Things Fall Apart");
@@ -98,7 +91,7 @@ public class Menu {
                 System.out.println(".....DONE!!.............................................");
                 return true;
 
-            case "5":
+            case "4":
                 //PROCESSING FOR A TEACHER AND A STUDENT
                 teacher4 = new Person(30, "Commando Wizjid", "Teacher");
                 student1 = new Person(21, "Idowu Akinwale", "Student");
@@ -122,7 +115,7 @@ public class Menu {
                 return true;
 
 //
-            case "6":
+            case "5":
                 //PROCESSING FOR STUDENTS (SENIOR VS JUNIOR)
                 student2 = new Person(19, "Solanke Shodipe", "Student");
                 student1 = new Person(21, "Idowu Akinwale", "Student");
@@ -147,17 +140,24 @@ public class Menu {
                 System.out.println(".....DONE!!!.............................................");
                 return true;
 
-            case "7":
+            case "6":
                 LibrarianImplementation.getBookIssuedRecord(librarian);
                 return true;
-            case "8":
-                System.out.println("\n" + LibrarianImplementation.returnBook(librarian, teacher4));
+            case "7":
+            try {
+                  System.out.println("\n" + LibrarianImplementation.returnBook(librarian, teacher4));
                 System.out.println("\n" + LibrarianImplementation.returnBook(librarian, teacher2));
                 System.out.println("\n" + LibrarianImplementation.returnBook(librarian, student2));
                 System.out.println("\n" + LibrarianImplementation.returnBook(librarian, student1));
                 System.out.println("\n" + LibrarianImplementation.returnBook(librarian, teacher1));
+            }
+            catch (Exception ex)
+            {
+                System.out.println("You need to borrow book");
+            }
+
                 return true;
-            case "9":
+            case "8":
                 return false;
 
             default:
@@ -165,7 +165,7 @@ public class Menu {
         }
     }
 
-    public static boolean performSearching() {
+    public static boolean performSearching() throws NoPermissionException {
         Scanner sc = new Scanner(System.in);
         System.out.println("\n**********************************************************************************************");
         System.out.println("WELCOME TO THE LIBRARY  SEARCHING DASHBOARD");
@@ -192,6 +192,41 @@ public class Menu {
                 return true;
         }
 
+
+
+    }
+    public  static  boolean  handleSort() throws NoPermissionException {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("\n**********************************************************************************************");
+        System.out.println("WELCOME TO THE LIBRARY  SEARCHING DASHBOARD");
+        System.out.println("\n ******************************************************************************************");
+        System.out.println("==============================================================================================");
+
+        System.out.println("1) To search by category");
+        System.out.println("2) To search by title");
+        System.out.println("3) To search by country");
+        System.out.println("4) Exit");
+        Person librarian = new Person(29, "Olaleye Oluwatosin", "Librarian");
+        switch (sc.next()) {
+            case "1":
+                System.out.println("Enter the category you want to sort with..");
+                String category = sc.next();
+                BookDatabase.sortBookBy(librarian,category);
+                return true;
+            case "2":
+                System.out.println("Enter the title you want to sort with..");
+                String title = sc.next();
+                BookDatabase.sortBookBy(librarian,title);
+                return true;
+            case "3":
+                System.out.println("Enter the country you want to sort with..");
+                String country = sc.next();
+                BookDatabase.sortBookBy(librarian,country);
+                return true;
+            case "4": return  false;
+            default:
+                return true;
+        }
     }
 }
 
