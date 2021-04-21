@@ -10,24 +10,22 @@ public class Book implements Comparable<Book>{
     private String imageLink;
     private String language;
     private  String link;
-    private String getImageLink;
     private  int pages;
     private String title;
     private int year;
 
     public Book() {
-        this.id=0;
+        this.id = id;
         this.numOfCopies = 0;
-        this.author ="";
-        this.country = "";
+        this.author = "";
+        this.country ="";
         this.category = "";
         this.imageLink = "";
-        this.language = "";
+        this.language ="";
         this.link = "";
-        this.getImageLink ="";
-        this.pages =0;
-        this.title = "";
-        this.year = 0;
+        this.pages = 0;
+        this.title ="";
+        this.year =0;
     }
 
     public Book(String title) {
@@ -36,15 +34,15 @@ public class Book implements Comparable<Book>{
 
     }
 
-    public Book(int id, int numOfCopies, String author, String country, String imageLink, String language, String link, String getImageLink, int pages, String title, int year) {
+    public Book(int id, int numOfCopies, String author, String country, String category, String imageLink, String language, String link, int pages, String title, int year) {
         this.id = id;
-        this.author = author;
         this.numOfCopies = numOfCopies;
+        this.author = author;
         this.country = country;
+        this.category = category;
         this.imageLink = imageLink;
         this.language = language;
         this.link = link;
-        this.getImageLink = getImageLink;
         this.pages = pages;
         this.title = title;
         this.year = year;
@@ -66,9 +64,6 @@ public class Book implements Comparable<Book>{
         return language;
     }
 
-    public String getGetImageLink() {
-        return getImageLink;
-    }
 
     public int getPages() {
         return pages;
@@ -109,7 +104,6 @@ public class Book implements Comparable<Book>{
                 ", imageLink='" + imageLink + '\'' +
                 ", language='" + language + '\'' +
                 ", link='" + link + '\'' +
-                ", getImageLink='" + getImageLink + '\'' +
                 ", pages=" + pages +
                 ", title='" + title + '\'' +
                 ", year=" + year +

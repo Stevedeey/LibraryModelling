@@ -2,14 +2,16 @@ package com.library.services.serviceImplementation;
 
 import com.library.model.Book;
 import com.library.model.Person;
+import com.library.services.LibrarianFunctionality;
 import com.library.utilities.BookDatabase;
+import com.library.utilities.Extras;
 import com.library.utilities.RecordDisplayClass;
 import com.library.utilities.Records;
 
 import java.text.DateFormat;
 import java.util.*;
 
-public class LibrarianImplementation {
+public class LibrarianImplementation implements LibrarianFunctionality {
     private static RecordDisplayClass<Person, Book, Records> display = new RecordDisplayClass<>();
     private static Integer defaultDay = 7;
 
@@ -18,38 +20,36 @@ public class LibrarianImplementation {
         char response = ' ';
 
         System.out.println("ENTER BOOK CATEGORY: \n");
-        String category = scanner.next();
+        String category = scanner.nextLine();
 
         System.out.println("ENTER BOOK TITLE: \n");
-        String title = scanner.next();
+        String title = scanner.nextLine();
 
         System.out.println("BOOK AUTHOR: \n");
-        String author = scanner.next();
+        String author = scanner.nextLine();
 
         String promptYearCreated = "ENTER YEAR PUBLISHED \n";
-        int year = handlingNumberFormatException(promptYearCreated, scanner);
-
+        int year = Extras.handlingNumberFormatException(promptYearCreated,scanner);
         String promptNoOfPages = "ENTER NUMBER OF PAGES \n";
-        int pages = handlingNumberFormatException(promptNoOfPages, scanner);
+        int pages = Extras.handlingNumberFormatException(promptNoOfPages, scanner);
 
         System.out.println("BOOK LANGUAGE: \n");
-        String language = scanner.next();
+        String language = scanner.nextLine();
 
         System.out.println("BOOK COUNTRY: \n");
-        String country = scanner.next();
+        String country = scanner.nextLine();
 
         System.out.println("BOOK IMAGE LINK: \n");
-        String imageLink = scanner.next();
+        String imageLink = scanner.nextLine();
 
         System.out.println("BOOK LINK: \n");
-        String link = scanner.next();
+        String link = scanner.nextLine();
 
         String promptNoOfCopies = "ENTER NUMBER OF COPIES \n";
-        int numOfCopies = handlingNumberFormatException(promptNoOfCopies, scanner);
+        int numOfCopies = Extras.handlingNumberFormatException(promptNoOfCopies, scanner);
 
-        Book newBook = new Book(BookDatabase.getBookList().size() + 1, numOfCopies, author, country, category, imageLink,
-                language, link, pages, title, year);
 
+        Book newBook = new Book(BookDatabase.getBookList().size()+1,numOfCopies,author,country,category,imageLink,language,link,pages,title,year);
         BookDatabase.updateBooks(newBook);
         return newBook;
     }
@@ -60,20 +60,7 @@ public class LibrarianImplementation {
      * @param sc1 collects values from the user
      * @return
      */
-    private static int handlingNumberFormatException(String prompt, Scanner sc1) {
-        int intInput = 0;
-        while (true) {
-            System.out.println(prompt);
-            String stringInput = sc1.next();
-            try {
-                intInput = Integer.parseInt(stringInput);
-                break;
-            } catch (NumberFormatException exe) {
-                System.out.println("You must enter a number");
-            }
-        }
-        return intInput;
-    }
+
 
     /**
      * This method displays the info of the person(s) the book is issued to
@@ -129,7 +116,7 @@ public class LibrarianImplementation {
         String message = "";
         int counter = 0;
         records = Records.getRecords();
-
+        if(records.containsKey(person.getId())) counter++;
         for (Map.Entry<Integer, String> each : records.entrySet()) {
             if (each.getKey().equals(person.getId())) counter++;
         }
@@ -152,12 +139,13 @@ public class LibrarianImplementation {
      * @return
      */
     public static <T> String issueBook(Person librarian, T object){
-        String message = "";
+        String message = ""; BookDatabase bookDatabase = new BookDatabase();
         if(librarian.getRole().equalsIgnoreCase("librarian")){
             if(object instanceof Person){
                 Person person = (Person) object;
                 String request = person.getRequest().trim();
-                List<Book> bookIssued = BookDatabase.getBook(request);
+               // List<Book> bookIssued = BookDatabase.getBook(request);
+                List<Book> bookIssued =bookDatabase.getGetBook().searchBookByParameter(request);
 
                 if(bookIssued.size() > 0){
                     message = "successful";
@@ -171,7 +159,8 @@ public class LibrarianImplementation {
                 PriorityQueue que = (PriorityQueue) object;
                 Person person = (Person) que.peek();
                 String request = person.getRequest().trim();
-                List<Book> bookIssued = BookDatabase.getBook(request);
+//                List<Book> bookIssued = BookDatabase.getBook(request);
+                List<Book> bookIssued =bookDatabase.getGetBook().searchBookByParameter(request);
                 int copiesOfBook = bookIssued.get(0).getNumOfCopies();
 
                 if(copiesOfBook == 1){
@@ -223,11 +212,13 @@ public class LibrarianImplementation {
      * @param librarian
      * @param person
      * @param bookTitle
+     *
      */
-    public static void makeBookRequest(Person librarian, Person person, String bookTitle) {
+    public static void setUpBookRequest(Person librarian, Person person, String bookTitle) {
         person.setRequest(bookTitle);
         System.out.println(person.getName() + ", You've successfully made a request for a book");
     }
+
 
     /**
      * Getting current date

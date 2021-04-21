@@ -1,6 +1,6 @@
 package com.library.utilities;
 
-import enums.BookCategories;
+import com.library.enums.BookCategories;
 import enums.Sorting;
 import com.library.model.Book;
 import com.library.model.Person;
@@ -19,31 +19,49 @@ public class BookDatabase {
     public static int bookId = bookList.size();
     private static RecordDisplayClass<Book, Object, Object> display = new RecordDisplayClass<>();
 
-    public static void updateBooks(Book book) {
-        List<Book> allBooks = bookList;
-        allBooks.add(book);
-        bookList = allBooks;
+
+// Lambda method for search by three criteria
+
+    BookDatabaseService searchByTitleAndOthersParameters = (params) -> {
+        List searchItemsList = new ArrayList();
+        long dataTitle = bookList.stream().
+                filter(item -> item.getTitle().equalsIgnoreCase(params)).count();
+        long dataLanguage = bookList.stream().
+                filter(item -> item.getLanguage().equalsIgnoreCase(params)).count();
+        if (dataTitle > 0) {
+            bookList.stream()
+                    .filter(item -> item.getTitle().equalsIgnoreCase(params))
+                    .forEach(book -> searchItemsList.add(book));
+        } else if (dataLanguage > 0)
+            bookList.stream()
+                    .filter(book -> book.getLanguage().equalsIgnoreCase(params))
+                    .forEach(book -> searchItemsList.add(book));
+        else {
+            bookList.stream()
+                    .filter(item -> item.getCountry().equalsIgnoreCase(params))
+                    .forEach(book -> searchItemsList.add(book));
+        }
+        display.displayBookInformation(searchItemsList);
+        return searchItemsList;
+    };
+
+    //The getter for searchingByDifferentParameters lambda method
+    public BookDatabaseService getSearchByTitleAndOthersParameters() {
+        return searchByTitleAndOthersParameters;
     }
 
-
-    /**
-     * This method accept a book title as a parameter and return the book
-     * @param category
-     * @return
-     */
-
-    public static List<Book> searchBookByCategory(String category) {
-        BookCategories categories;
+    //Implementation for Search by category
+    BookDatabaseService ServiceImplementationForSearch1 = (parameter) -> {
+        BookCategories categories = null;
         List searchItemLists = new ArrayList();
 
         try {
-            categories = BookCategories.valueOf(category.toUpperCase());
+            categories = BookCategories.valueOf(parameter.toUpperCase());
         } catch (IllegalArgumentException error) {
-            System.out.println("Enter valid Category:\n e.g FICTION, HISTORY, JOURNALS\n" +
+            System.out.println("Enter valid parameter:\n e.g FICTION, HISTORY, JOURNALS\n" +
                     "\t\tLITERATURE AND PROGRAMMING");
             return null;
         }
-
         switch (categories) {
             case FICTION:
             case HISTORY:
@@ -51,82 +69,60 @@ public class BookDatabase {
             case LITERATURE:
             case PROGRAMMING:
 
-                for (Book book : bookList) {
-                    if (book.getCategory().equalsIgnoreCase(category)) {
+                bookList.forEach(book -> {
+                    if (book.getCategory().equalsIgnoreCase(parameter)) {
                         searchItemLists.add(book);
                     }
-                }
-
+                });
                 break;
         }
-
         display.displayBookInformation(searchItemLists);
         return searchItemLists;
-
-    }
+    };
 
     /**
-     * This method accept a book title as a parameter and return the book
-     * @param title
+     * Getter for the Lamda Method 1
+     *
      * @return
      */
-    public static List<Book> searchBookByTitle(String title) {
-        List searchItemLists = new ArrayList();
-
-        for (Book book : bookList) {
-            if (book.getTitle().equalsIgnoreCase(title)) {
-                searchItemLists.add(book);
-            }
-        }
-
-        display.displayBookInformation(searchItemLists);
-
-        return searchItemLists;
+    public BookDatabaseService ServiceImplementationForSearch1() {
+        return ServiceImplementationForSearch1;
     }
 
-    /**
-     * This method accept the book's country  as a parameter the and return the  list of the book(s)
-     * @param country
-     * @return
-     */
-    public static List<Book> searchBookByCountryName(String country) {
-        List searchItemLists = new ArrayList();
 
-        for (Book book : bookList) {
-            if (book.getCountry().equalsIgnoreCase(country)) {
-                searchItemLists.add(book);
-            }
-        }
-
-        display.displayBookInformation(searchItemLists);
-
-        return searchItemLists;
-    }
-
-    public static List<Book> searchBookByLanguage(String language) {
-        List searchItemLists = new ArrayList();
-
-        for (Book book : bookList) {
-            if (book.getLanguage().equalsIgnoreCase(language)) {
-                searchItemLists.add(book);
-            }
-        }
-
-        display.displayBookInformation(searchItemLists);
-
-        return searchItemLists;
-    }
+    //Implementation 4 Language
+//    BookDatabaseService ServiceImplementationForSearch4 = (parameter) -> {
+//
+//        List searchItemLists = new ArrayList();
+//        bookList.forEach(book ->
+//        {
+//            if (book.getLanguage().equalsIgnoreCase(parameter)) searchItemLists.add(book);
+//        });
+//
+//        display.displayBookInformation(searchItemLists);
+//
+//        return searchItemLists;
+//    };
+//
+//    /**
+//     * Getter for the Lamda Method 4
+//     *
+//     * @return
+//     */
+//    public BookDatabaseService ServiceImplementationForSearch4() {
+//        return ServiceImplementationForSearch4;
+//    }
 
     public static Comparator<Book> comparator = new Comparator<Book>() {
         public int compare(Book book, Book another) {
             return book.getTitle().compareTo(another.getTitle());
         }
     };
-
-    public static List<Book> getBook(String title) {
+    //Lambda Method for GetBook
+    BookDatabaseService getBook = parameter -> {
         List borrowBook = new ArrayList();
 
-        Book book = new Book(title);
+        Book book = new Book(parameter);
         Collections.sort(bookList, comparator);
 
         int index = Collections.binarySearch(bookList, book, comparator);
@@ -138,10 +134,32 @@ public class BookDatabase {
         display.displayBookInformation(borrowBook);
 
         return borrowBook;
+    };
 
+    // The Getter for the get book Lambda above
+    public BookDatabaseService getGetBook() {
+        return getBook;
     }
 
+    /**
+     * The method updates the book list when a new book is added
+     *
+     * @param book
+     */
+    public static void updateBooks(Book book) {
+        List<Book> allBooks = bookList;
+        allBooks.add(book);
+        bookList = allBooks;
+        System.out.println("You just added: " + book.getTitle() +
+                " " + book.getCategory());
+    }
 
+    /**
+     * This method ensures that the right data is enterd for sorting
+     *
+     * @param data
+     * @return
+     */
     private static Sorting validateInputsToSort(String data) {
         Sorting sort;
         try {
@@ -155,6 +173,13 @@ public class BookDatabase {
         return sort;
     }
 
+    /**
+     * This method sorts the list based on the parameter passed in
+     *
+     * @param person
+     * @param params
+     * @return
+     */
     public static List<Book> sortBookBy(Person person, String params) {
         if (person.getRole().equalsIgnoreCase("librarian")) {
             enums.Sorting sort = validateInputsToSort(params);

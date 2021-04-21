@@ -1,36 +1,22 @@
 package com.library;
 
 import com.library.model.Book;
-import com.library.model.Person;
-import com.library.services.serviceImplementation.LibrarianImplementation;
 import com.library.utilities.BookDatabase;
+import com.library.utilities.BookDatabaseService;
+import com.library.utilities.RecordDisplayClass;
 
 import javax.naming.NoPermissionException;
-import java.util.PriorityQueue;
+import java.util.List;
+import java.util.Scanner;
 
 public class Main {
+    static List<Book> listOfAllBooks = BookDatabase.getBookList();
+
     public static void main(String[] args) throws NoPermissionException {
         boolean showMenu = true;
-        while(showMenu)
-        {
-            showMenu = Menu.main_menu();
-
-        }
-
-        boolean showSearchMenu = true;
-        while(showSearchMenu)
-        {
-            showSearchMenu = Menu.performSearching();
-
-        }
-
-        boolean showSortMenu = true;
-
-        while (showSortMenu)
-        {
-            showSortMenu = Menu.handleSort();
-        }
+        while (showMenu) showMenu = Menu.handleMainMenu();
 
 
     }
+
 }

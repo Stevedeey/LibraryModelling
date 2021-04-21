@@ -1,4 +1,4 @@
-package enums;
+package com.library.enums;
 
 public enum BookCategories {
     LITERATURE,

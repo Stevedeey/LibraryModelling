@@ -2,9 +2,12 @@ package com.library.model;
 
 
 import javax.naming.NoPermissionException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.regex.Pattern;
 
 public class Person implements Comparable<Person>{
@@ -13,6 +16,9 @@ public class Person implements Comparable<Person>{
     private String role;
     private int level;
     private String request;
+    public static  Queue<Person> myQue = new ConcurrentLinkedQueue<>();
+    public  static  List<String> allRequests = new ArrayList<>();
+
 
     public String getRequest() {
         return request;
@@ -132,6 +138,18 @@ public class Person implements Comparable<Person>{
     }
 
 
+
+    public void makeRequest(String bookTitle)
+    {
+        if(!allRequests.contains(bookTitle))
+        {
+            allRequests.add(bookTitle);
+        }
+        this.request = bookTitle;
+        myQue.add(this);
+        System.out.println(this.getName() + ", You've successfully made a request for a book");
+
+    }
     @Override
     public int compareTo(Person person) {
         if(this.level < person.level || this.level == person.level)
